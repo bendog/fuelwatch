@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+autopep8 = "*"
+rope = "*"
+
+[packages]
+beautifulsoup4 = "*"
+lxml = "*"
+flask = "*"
+flask-restful = "*"
+django = "*"
+graphene-django = "*"
+django-filter = ">=2"
+
+[requires]
+python_version = ">=3.6"
