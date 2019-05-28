@@ -22,8 +22,8 @@ class LocationFilter(FilterSet):
         model = Location
         exclude = []
         fields = {
-            # 'prices__price': ['gt', 'gte', 'lt', 'lte'],
-            # 'prices__date': ['gt', 'gte', 'lt', 'lte'],
+            'prices__price': ['gt', 'gte', 'lt', 'lte'],
+            'prices__date': ['gt', 'gte', 'lt', 'lte'],
             'brand': ['exact', 'icontains', 'istartswith', 'in'],
             'suburb': ['exact', 'icontains', 'istartswith', 'in'],
         }
@@ -43,8 +43,8 @@ class PriceFilter(FilterSet):
         fields = {
             'price': ['gt', 'gte', 'lt', 'lte'],
             'date': ['gt', 'gte', 'lt', 'lte'],
-            # 'location__brand': ['exact', 'icontains', 'istartswith', 'in'],
-            # 'location__suburb': ['exact', 'icontains', 'istartswith', 'in'],
+            'location__brand': ['exact', 'icontains', 'istartswith', 'in'],
+            'location__suburb': ['exact', 'icontains', 'istartswith', 'in'],
         }
 
 

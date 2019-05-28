@@ -80,6 +80,35 @@ Search for all Caltex, Shell and BP, sorting by Price and return first 50
 }
 ```
 
+Seach for all Caltex, Shell and BP, where prices after a date are less than $1.35, ordering by price and returning the first 50
+
+```graphql
+{
+  allLocations(
+    orderBy: "prices__price",
+    first: 50,
+    brand_In: "Caltex,Shell,BP",
+    prices_Price_Lte: 135,
+    prices_Date_Gte: "2019-05-28",
+  ) {
+    edges {
+      node {
+        id
+        tradingName
+        address
+        suburb
+        prices {
+          edges {
+            node{
+              price
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
 
 ## Flask app
 

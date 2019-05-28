@@ -88,24 +88,12 @@ class PriceViewSet(viewsets.ModelViewSet):
         'location__brand',
         'price',
     )
-    filter_fields = {
-        'price': ['gt', 'gte', 'lt', 'lte'],
-        'date': ['gt', 'gte', 'lt', 'lte'],
-        'location__brand': ['exact', 'icontains', 'istartswith', 'in'],
-        'location__suburb': ['exact', 'icontains', 'istartswith', 'in'],
-    }
 
 
 class LocationViewSet(viewsets.ModelViewSet):
     serializer_class = LocationSerializer
     queryset = Location.objects.prefetch_related('features', 'prices').all()
     search_fields = ('suburb', 'brand')
-    filter_fields = {
-        'prices__price': ['gt', 'gte', 'lt', 'lte'],
-        'prices__date': ['gt', 'gte', 'lt', 'lte'],
-        'brand': ['exact', 'icontains', 'istartswith', 'in'],
-        'suburb': ['exact', 'icontains', 'istartswith', 'in'],
-    }
 
 
 class FeatureViewSet(viewsets.ModelViewSet):
