@@ -5,6 +5,7 @@ from django_filters import FilterSet, OrderingFilter
 
 from .models import Feature, Location, Price
 
+
 class FeatureType(DjangoObjectType):
 
     class Meta:
@@ -12,11 +13,13 @@ class FeatureType(DjangoObjectType):
         interfaces = (graphene.Node, )
         filter_fields = ['name']
 
+
 class LocationType(DjangoObjectType):
     class Meta:
         model = Location
         interfaces = (graphene.Node, )
         filter_fields = ['brand', 'suburb']
+
 
 class PriceFilter(FilterSet):
     order_by = OrderingFilter(
@@ -24,16 +27,18 @@ class PriceFilter(FilterSet):
             ('date', 'date')
         )
     )
+
     class Meta:
         model = Price
         exclude = []
-    
+
 
 class PriceType(DjangoObjectType):
     class Meta:
         model = Price
         interfaces = (graphene.Node, )
         filter_fields = ['date', 'price', 'location']
+
 
 class Query(object):
     feature = graphene.Node.Field(FeatureType)

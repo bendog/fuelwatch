@@ -16,6 +16,7 @@ class FuelPrice(object):
     brand: str
     price: float
 
+
 prices = []
 for item in soup.rss.channel.find_all('item')[:10]:
     prices.append(FuelPrice(

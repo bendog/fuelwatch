@@ -14,12 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from fuelprice import views as fuelprice_views
+from django.urls import path, include
+from rest_framework import routers
 from graphene_django.views import GraphQLView
+from fuelprice import views as fuelprice_views
+
+router = routers.DefaultRouter()
+router.register(r'feature', fuelprice_views.FeatureViewSet)
+router.register(r'location', fuelprice_views.LocationViewSet)
+router.register(r'price', fuelprice_views.PriceViewSet)
 
 urlpatterns = [
-    path('update/', fuelprice_views.import_data ),
+    path('update/', fuelprice_views.import_data),
     path('admin/', admin.site.urls),
-    path('', GraphQLView.as_view(graphiql=True)),
+    path('rest/', include(router.urls)),
+    path('graphql', GraphQLView.as_view(graphiql=True)),
 ]

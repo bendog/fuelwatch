@@ -1,13 +1,16 @@
+from typing import List
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.functional import cached_property
 
 # Create your models here.
+
+
 class Feature(models.Model):
     name = models.CharField(_("Feature"), max_length=50, unique=True)
-    
+
     def __str__(self):
         return self.name
-    
 
 
 class Location(models.Model):
@@ -26,6 +29,11 @@ class Location(models.Model):
 
     def __str__(self):
         return f"Location:{self.pk}: {self.brand} {self.suburb}"
+
+    @cached_property
+    def feature_list(self) -> List[str]:
+        return [x.name for x in self.features.all()]
+
 
 class Price(models.Model):
     date = models.DateField(_("Date"), auto_now=False, auto_now_add=False)

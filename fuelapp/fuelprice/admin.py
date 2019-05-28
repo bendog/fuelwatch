@@ -5,10 +5,12 @@ from .models import Feature, Location, Price
 @admin.register(Feature)
 class FeatureAdmin(admin.ModelAdmin):
     pass
-    
+
+
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     pass
+
 
 @admin.register(Price)
 class PriceAdmin(admin.ModelAdmin):

@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+from rest_framework import viewsets
 
 from .models import Price, Location, Feature
-
+from .serializers import FeatureSerializer, LocationSerializer, PriceSerializer
 
 FUEL_WATCH_RSS_URL = "http://www.fuelwatch.wa.gov.au/fuelwatch/fuelWatchRSS"
-
 
 
 def get_fuel_file() -> str:
@@ -38,7 +38,7 @@ def import_data(request):
         site_features = []
         if item.site_features:
             site_features = [x.strip() for x in item.site_features.string.split(',') if x.strip()]
-        
+
         # setup fuel locations
         fuel_location = {
             "brand": item.brand.string,
@@ -59,7 +59,7 @@ def import_data(request):
             if feature_pks:
                 fl.features.set(list(set(feature_pks)))
                 fl.save()
-        
+
         # process fuel price
         fuel_price = {
             "date": item.date.string,
@@ -76,3 +76,38 @@ def import_data(request):
     if location_added or price_added:
         response.status_code = 201
     return response
+
+
+# django rest viewsets
+
+class PriceViewSet(viewsets.ModelViewSet):
+    serializer_class = PriceSerializer
+    queryset = Price.objects.select_related('location').all()
+    search_fields = (
+        'location__suburb',
+        'location__brand',
+        'price',
+    )
+    filter_fields = {
+        'price': ['gt', 'gte', 'lt', 'lte'],
+        'date': ['gt', 'gte', 'lt', 'lte'],
+        'location__brand': ['icontains', 'istartswith', 'in'],
+        'location__suburb': ['icontains', 'istartswith', 'in'],
+    }
+
+
+class LocationViewSet(viewsets.ModelViewSet):
+    serializer_class = LocationSerializer
+    queryset = Location.objects.prefetch_related('features', 'prices').all()
+    search_fields = ('suburb', 'brand')
+    filter_fields = {
+        'prices__price': ['gt', 'gte', 'lt', 'lte'],
+        'prices__date': ['gt', 'gte', 'lt', 'lte'],
+        'brand': ['icontains', 'istartswith', 'in'],
+        'suburb': ['icontains', 'istartswith', 'in'],
+    }
+
+
+class FeatureViewSet(viewsets.ModelViewSet):
+    serializer_class = FeatureSerializer
+    queryset = Feature.objects.filter(name__isnull=False)

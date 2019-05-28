@@ -14,8 +14,10 @@ lxml = "*"
 flask = "*"
 flask-restful = "*"
 django = "*"
+djangorestframework = "*"
 graphene-django = "*"
 django-filter = ">=2"
+markdown = "*"
 
 [requires]
 python_version = ">=3.6"
