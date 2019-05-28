@@ -6,9 +6,8 @@ Proof of concept for a dynamic backend for Fuel Watch scraping.
 
 todo:
 
-- better filtering in graphql
-- better sorting in graphql
 - Django Rest filter for date valid today
+- Django GraphQL filter for date valid today
 
 ### setup a new database
 
@@ -35,6 +34,8 @@ or browse to  <http://127.0.0.1:8000/rest/> for django rest framework interface
 
 ### Django Graphene graphql example queries
 
+Search for all fuel in a suburb
+
 ```graphql
 {
   allLocations(suburb: "PERTH") {
@@ -55,6 +56,30 @@ or browse to  <http://127.0.0.1:8000/rest/> for django rest framework interface
   }
 }
 ```
+
+Search for all Caltex, Shell and BP, sorting by Price and return first 50
+
+```graphql
+{
+  allLocations(orderBy:"prices__price", first:50, brand_In:"Caltex,Shell,BP") {
+    edges {
+      node {
+        id
+        brand
+        address
+        prices {
+          edges {
+            node {
+              price
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 
 ## Flask app
 
