@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.forms.models import model_to_dict
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from rest_framework import viewsets
@@ -99,3 +100,9 @@ class LocationViewSet(viewsets.ModelViewSet):
 class FeatureViewSet(viewsets.ModelViewSet):
     serializer_class = FeatureSerializer
     queryset = Feature.objects.filter(name__isnull=False)
+
+
+def list_prices(request):
+    """ returns the model for display as a table """
+    qs = Price.objects.select_related('location').all()
+    return render(request, "fuelprice/table.html", {'items': [model_to_dict(x) for x in qs]})

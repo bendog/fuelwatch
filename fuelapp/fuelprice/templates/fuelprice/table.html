@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>List Prices</title>
+</head>
+<body>
+    {% if items %}
+    <h1>items</h1>
+    <table>
+      {% for item in items %}
+        <!-- item: {{ item }}-->
+        {% if forloop.first %}
+          <tr>
+            {% for title in item.keys %}
+            <th>{{title}}.</th>
+            {% endfor %}
+          </tr>
+        {% endif %}
+        <tr>
+          {% for fname, field in item.items %}
+          <td>
+            {% if fname == 'location' %}
+              {{ field.trading_name }}
+            {% else %}
+              {{ field }}
+            {% endif %}
+          </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <h1>no objects</h1>
+    {% endif %}
+</body>
+</html>

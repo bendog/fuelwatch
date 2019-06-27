@@ -29,4 +29,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('rest/', include(router.urls)),
     path('graphql', GraphQLView.as_view(graphiql=True)),
+    path('list/', fuelprice_views.list_prices),
 ]

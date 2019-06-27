@@ -34,6 +34,9 @@ class Location(models.Model):
     def feature_list(self) -> List[str]:
         return [x.name for x in self.features.all()]
 
+    @cached_property
+    def name(self):
+        return f"{self.brand} {self.suburb}"
 
 class Price(models.Model):
     date = models.DateField(_("Date"), auto_now=False, auto_now_add=False)
